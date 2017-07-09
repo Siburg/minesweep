@@ -24,14 +24,13 @@ class \
     def test_max_width_compliance(self):
         """check that returned width value remains within specified max_width"""
         max_width = 1
-        values = minesweep.get_game_parameters(max_width)
+        values = minesweep.get_game_parameters(max_width=max_width)
         self.assertLessEqual(values[0], max_width)
 
     def test_max_height_compliance(self):
         """check that returned height value remains within specified max_height"""
         max_height = 1
-        values = minesweep.get_game_parameters(1,max_height)
-        # check order of parameters; not sure what happens if you provide only one
+        values = minesweep.get_game_parameters(max_height=max_height)
         self.assertLessEqual(values[1], max_height)
 
 
