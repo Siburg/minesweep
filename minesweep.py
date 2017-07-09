@@ -2,11 +2,11 @@
 A minesweeper game without a GUI.
 """
 
-def get_game_parameters():
-    height = 1
-    width = 1
+def get_game_parameters(max_width=76, max_height=20):
+    width = min(1, max_width)
+    height = min(2, max_height)
     number_of_mines = 1
-    return height, width, number_of_mines
+    return width, height, number_of_mines
 
 
 def setup_game():

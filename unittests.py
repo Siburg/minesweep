@@ -4,7 +4,8 @@ import minesweep
 import unittest
 
 
-class TestGetGameParameters(unittest.TestCase):
+class \
+        TestGetGameParameters(unittest.TestCase):
     """ test function get_game_paramaters"""
 
     def test_number_of_return_values(self):
@@ -19,6 +20,20 @@ class TestGetGameParameters(unittest.TestCase):
         # did we actually need to call minesweep again? could we do it earlier?
         self.assertTrue(type(values[0]) is int
                               and type(values[1]) is int and type(values[2]) is int)
+
+    def test_max_width_compliance(self):
+        """check that returned width value remains within specified max_width"""
+        max_width = 1
+        values = minesweep.get_game_parameters(max_width)
+        self.assertLessEqual(values[0], max_width)
+
+    def test_max_height_compliance(self):
+        """check that returned height value remains within specified max_height"""
+        max_height = 1
+        values = minesweep.get_game_parameters(1,max_height)
+        # check order of parameters; not sure what happens if you provide only one
+        self.assertLessEqual(values[1], max_height)
+
 
 if __name__ == '__main__':
     unittest.main()
