@@ -50,11 +50,24 @@ class TestGetGameParameters(unittest.TestCase):
 
 class TestSetupGame(unittest.TestCase):
     """ test function setup_game"""
-    pass
+
+    def setUp(self):
+        self.mines = minesweep.setup_game(8,8,16)
+
+    def test_returned_mines_is_list(self):
+        self.assertTrue(type(self.mines) == list)
+
+    def test_returned_mines_equals_number_of_mines(self):
+        print(self.mines)
+        self.assertEqual(len(self.mines), 16)
+
+
 
 
 class TestDisplayBoard(unittest.TestCase):
     """ test function display_board"""
+    # note this is mostly still a bunch of nonsense tests to understand print redirection
+    # does not yet have anything to do with the program itself
 
     def setUp(self):
         self.print_redirect = io.StringIO()
@@ -69,16 +82,25 @@ class TestDisplayBoard(unittest.TestCase):
         self.assertEqual(printed, 'hello\n')
 
     def test_same_thing_again_got_printed(self):
-        minesweep.display_board()
+        print('hello again')
         printed = self.print_redirect.getvalue()
         # commented out statements below cause an exit failure
         # sys.stdout = sys.__stdout__
         # print_redirect.close()
-        self.assertEqual(printed, 'hello\n')
+        self.assertEqual(printed, 'hello again\n')
+
+    def test_print_redirect_got_closed(self):
+        self.assertFalse(self.print_redirect.closed)
+
+    def test_what_happens_now(self):
+        printed = self.print_redirect.readline()
+        self.assertEqual(printed, "")
 
     def tearDown(self):
         # sys.stdout = sys.__stdout__
-        # self.print_redirect.close()
+        self.print_redirect.flush()
+        # sys.stdout = sys.__stdout__
+        # io.StringIO.close()
         pass
 
 
