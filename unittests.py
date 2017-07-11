@@ -61,8 +61,7 @@ class TestSetupGame(unittest.TestCase):
 
     def test_returned_mines_equals_number_of_mines(self):
         print(self.mines)
-        # this is not yet good; see example in python games
-        self.assertEqual(len(self.mines), 64)
+        self.assertEqual(len(self.mines), 16)
 
 
 

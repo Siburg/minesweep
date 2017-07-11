@@ -16,14 +16,14 @@ def setup_game(width, height, number_of_mines):
     # First, create 1-dimensional list of random mines
     set_mines = sample(range(width*height), number_of_mines)
     mines = []
+    # translate the 1-dimensional list into a list with x,y coordinates for each mine
+    for mine in set_mines:
+        mines.append((mine % height, mine // height))
     board = []
     for x in range(width):
-        mines.append([])
         board.append([])
         for y in range(height):
-            mines[x].append(False)
             board[x].append("o")
-    # note we have not yet done anything to indicate where are mines actually are
     return mines, board
 
 
