@@ -87,6 +87,24 @@ class TestSetupGame(unittest.TestCase):
         # note that coordinates start with 0, instead of 1
         self.assertTrue(all(mine[1] < self.height for mine in self.mines))
 
+    def test_returned_board_is_list(self):
+        """check that board is returned in the form of a list"""
+        self.assertEqual(type(self.board), list)
+
+    def test_board_width(self):
+        """check that number of items in the list, representing x coordinate, equals width"""
+        self.assertEqual(len(self.board), self.width)
+
+    def test_returned_board_has_sublists(self):
+        """check that elements of the board consist of lists"""
+        self.assertEqual(type(self.board[0]),list)
+
+    def test_board_height(self):
+        """check that number of items in the first sublist, representing y coordinate, equals height"""
+        # note that checking for later sublists should be redundant
+        self.assertEqual(len(self.board[0]), self.height)
+
+
 
 class TestDisplayBoard(unittest.TestCase):
     """ test function display_board"""
