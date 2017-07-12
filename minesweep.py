@@ -5,7 +5,18 @@ from random import sample
 
 
 def get_game_parameters(max_width=76, max_height=20):
-    width = min(2, max_width)
+    input_prompt = 'Enter width for the game board. A number between 1 and ' + str(max_width) + ' : '
+    while True:
+        try:
+            width = int(input(input_prompt))
+            if width < 1 or width > max_width:
+                print('You entered a number outside the allowed range!')
+            else:
+                break
+        except:
+            print('You should have entered a number.')
+
+    print(width)
     height = min(1, max_height)
     number_of_mines = min(2, width * height - 1)
     return width, height, number_of_mines
