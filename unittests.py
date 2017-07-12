@@ -52,18 +52,40 @@ class TestSetupGame(unittest.TestCase):
     """ test function setup_game"""
 
     def setUp(self):
-        self.results = minesweep.setup_game(8, 8, 16)
+        self.width = 20
+        self.height = 10
+        self.number_of_mines = 30
+        self.results = minesweep.setup_game(self.width, self.height, self.number_of_mines)
         self.mines = self.results[0]
         self.board = self.results[1]
 
     def test_returned_mines_is_list(self):
-        self.assertTrue(type(self.mines) == list)
+        """check that mines are returned in the form of a list"""
+        self.assertEqual(type(self.mines), list)
+
+    def test_at_least_one_mine_in_form_of_tuple(self):
+        """check we have at least one mine in the form of a tuple"""
+        # this could be split into two tests, but that seems like overkill
+        self.assertEqual(type(self.mines[0]), tuple)
+
+    def test_mine_has_2_coordinates(self):
+        """check that the tuple for the first mine has 2 coordinates"""
+        # it's probably redundant to check that for all mines
+        self.assertEqual(len(self.mines[0]),2)
 
     def test_returned_mines_equals_number_of_mines(self):
-        print(self.mines)
-        self.assertEqual(len(self.mines), 16)
+        """check we have as many mines as intended"""
+        self.assertEqual(len(self.mines), self.number_of_mines)
 
+    def test_mine_coordinates_fit_within_width(self):
+        """check that x-coordinates for each mine are less than width"""
+        # note that coordinates start with 0, instead of 1
+        self.assertTrue(all(mine[0] < self.width for mine in self.mines))
 
+    def test_mine_coordinates_fit_within_height(self):
+        """check that y-coordinates for each mine are less than height"""
+        # note that coordinates start with 0, instead of 1
+        self.assertTrue(all(mine[1] < self.height for mine in self.mines))
 
 
 class TestDisplayBoard(unittest.TestCase):

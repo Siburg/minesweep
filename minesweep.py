@@ -14,11 +14,11 @@ def get_game_parameters(max_width=76, max_height=20):
 def setup_game(width, height, number_of_mines):
     """Set up the 2-dimensional lists with mines and with the initial board to display"""
     # First, create 1-dimensional list of random mines
-    set_mines = sample(range(width*height), number_of_mines)
-    mines = []
+    random_mines = sample(range(width*height), number_of_mines)
     # translate the 1-dimensional list into a list with x,y coordinates for each mine
-    for mine in set_mines:
-        mines.append((mine % height, mine // height))
+    mines = []
+    for mine in random_mines:
+        mines.append((mine % width, mine // width))
     board = []
     for x in range(width):
         board.append([])
@@ -37,7 +37,9 @@ def get_move():
 
 
 def main():
-    pass
+    width, height, number_of_mines = get_game_parameters()
+    mines, board = setup_game(width, height, number_of_mines)
+
 
 
 if __name__ == '__main__':
