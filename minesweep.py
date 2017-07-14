@@ -5,6 +5,7 @@ from random import sample
 
 
 def get_game_parameters(max_width=76, max_height=20):
+    """
     input_prompt = 'Enter width for the game board. A number between 1 and ' + str(max_width) + ' : '
     while True:
         try:
@@ -17,6 +18,8 @@ def get_game_parameters(max_width=76, max_height=20):
             print('You should have entered a number.')
 
     print(width)
+    """
+    width = min(4, max_width)
     height = min(1, max_height)
     number_of_mines = min(2, width * height - 1)
     return width, height, number_of_mines
@@ -34,7 +37,7 @@ def setup_game(width, height, number_of_mines):
     for x in range(width):
         board.append([])
         for y in range(height):
-            board[x].append("o")
+            board[x].append("~")
     return mines, board
 
 

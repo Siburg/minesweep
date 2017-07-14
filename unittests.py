@@ -1,4 +1,4 @@
-"unit tests for minesweep.py"
+"""unit tests for minesweep.py"""
 
 import minesweep
 import unittest
@@ -39,7 +39,7 @@ class TestGetGameParameters(unittest.TestCase):
         # this assumes that you also need at least 1 mine
         # this could be split into separate tests, but that seems like overkill
         values = minesweep.get_game_parameters()
-        self.assertTrue(values[0] >= 1 and values[1] >=1 and values[2] >= 1)
+        self.assertTrue(values[0] >= 1 and values[1] >= 1 and values[2] >= 1)
 
     def test_number_of_mines_can_fit(self):
         """check that number of mines is less than the area of the board"""
@@ -71,7 +71,7 @@ class TestSetupGame(unittest.TestCase):
     def test_mine_has_2_coordinates(self):
         """check that the tuple for the first mine has 2 coordinates"""
         # it's probably redundant to check that for all mines
-        self.assertEqual(len(self.mines[0]),2)
+        self.assertEqual(len(self.mines[0]), 2)
 
     def test_returned_mines_equals_number_of_mines(self):
         """check we have as many mines as intended"""
@@ -97,13 +97,12 @@ class TestSetupGame(unittest.TestCase):
 
     def test_returned_board_has_sublists(self):
         """check that elements of the board consist of lists"""
-        self.assertEqual(type(self.board[0]),list)
+        self.assertEqual(type(self.board[0]), list)
 
     def test_board_height(self):
         """check that number of items in the first sublist, representing y coordinate, equals height"""
         # note that checking for later sublists should be redundant
         self.assertEqual(len(self.board[0]), self.height)
-
 
 
 class TestDisplayBoard(unittest.TestCase):
@@ -140,11 +139,10 @@ class TestDisplayBoard(unittest.TestCase):
 
     def tearDown(self):
         # sys.stdout = sys.__stdout__
-        self.print_redirect.flush()
-        # sys.stdout = sys.__stdout__
+        self.print_redirect.__del__()
+        sys.stdout = sys.__stdout__
         # io.StringIO.close()
         pass
-
 
 
 if __name__ == '__main__':
