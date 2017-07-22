@@ -6,6 +6,11 @@ import sys
 import io
 
 
+class TestGetSingleInput(unittest.TestCase):
+    """ Test the helper function get_single_input that is inside the
+    get_game_parameters function."""
+
+
 class TestGetGameParameters(unittest.TestCase):
     """ test function get_game_parameters"""
 

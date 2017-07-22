@@ -5,20 +5,29 @@ from random import sample
 
 
 def get_game_parameters(max_width=76, max_height=20):
-    """
-    input_prompt = 'Enter width for the game board. A number between 1 and ' + str(max_width) + ' : '
-    while True:
-        try:
-            width = int(input(input_prompt))
-            if width < 1 or width > max_width:
-                print('You entered a number outside the allowed range!')
-            else:
-                break
-        except:
-            print('You should have entered a number.')
+    """Get and validate size parameters for the game."""
+    # Minimums are hard coded below. Could be included in parameters above,
+    # or perhaps even defined as globals somehow, but seems unnecessary.
+    MIN_WIDTH = 3
+    MIN_HEIGHT = 3
+    MIN_MINES = 1
+    def get_single_input(prompt, min_value, max_value):
+        """Helper function to get each input one at a time."""
+        while True:
+            try:
+                entry = int(input(prompt))
+                if entry < min_value or entry > max_value:
+                    print('You entered a number outside the allowed range! ' +
+                          'The number needs to be at least ' + str(min_value) +
+                          ' and no larger than ' + str(max_value) +
+                          '. Please try again.')
+                else:
+                    return entry
+            except TypeError:
+                print('You should have entered a number. Please try again.')
 
-    print(width)
-    """
+
+
     width = min(4, max_width)
     height = min(1, max_height)
     number_of_mines = min(2, width * height - 1)
