@@ -26,11 +26,9 @@ def get_game_parameters(max_width=76, max_height=20):
             except TypeError:
                 print('You should have entered a number. Please try again.')
 
-
-
-    width = min(4, max_width)
-    height = min(1, max_height)
-    number_of_mines = min(2, width * height - 1)
+    width = get_single_input('Enter width for the game board: ', MIN_WIDTH, max_width)
+    height = get_single_input('Enter height for the game board: ', MIN_HEIGHT, max_height)
+    number_of_mines = get_single_input('Enter number of mines: ', MIN_MINES, width * height - 1)
     return width, height, number_of_mines
 
 
