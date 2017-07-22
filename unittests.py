@@ -10,14 +10,22 @@ import io
 class TestGetGameParameters(unittest.TestCase):
     """ test function get_game_parameters"""
 
+    def setUp(self):
+        self.print_redirect = io.StringIO()
+        sys.stdout = self.print_redirect
+
+    def tearDown(self):
+        self.print_redirect.__del__()
+        sys.stdout = sys.__stdout__
+
     def test_number_of_return_values(self):
-        """ check that we get 3 return values"""
+        """ check that we get 3 return values for normal input"""
         with mock.patch('builtins.input', side_effect=('9', '9', '9')):
             values = minesweep.get_game_parameters()
         self.assertEqual(len(values), 3)
 
     def test_all_return_values_are_integer(self):
-        """ check that all of the return values are integer"""
+        """ check that all of the return values are integer for normal input"""
         # you could split this into separate tests, but that seems like overkill
         with mock.patch('builtins.input', side_effect=('9', '9', '9')):
             values = minesweep.get_game_parameters()

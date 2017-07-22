@@ -28,6 +28,8 @@ def get_game_parameters(max_width=76, max_height=20):
 
     width = get_single_input('Enter width for the game board: ', MIN_WIDTH, max_width)
     height = get_single_input('Enter height for the game board: ', MIN_HEIGHT, max_height)
+    print('Your game board has width of ' + str(width) + ' and height of ' + str(height) +
+          ', providing ' + str(width * height) + ' locations to hide mines.')
     number_of_mines = get_single_input('Enter number of mines: ', MIN_MINES, width * height - 1)
     return width, height, number_of_mines
 
