@@ -107,8 +107,10 @@ def count_adjacent_mines(move, mines, width, height):
     x = move[0]
     y = move[1]
 
-    # Statement below does redundant check for x,y as well (we already checked that's not a mine) but so be it
-    # Note we want to check for x+1 and y+1, so range stops at x+2 and y+2
+    # Statement below does redundant check for x,y as well
+    # (we already checked that's not a mine) but so be it.
+    # Note we want to check for x+1 and y+1, so range stops at x+2 and y+2;
+    # unless we reach edge of board earlier
     for ix in range(max(0, x - 1), min(width, x + 2)):
         for iy in range(max(0, y - 1), min(height, y + 2)):
             if (ix, iy) in mines:
