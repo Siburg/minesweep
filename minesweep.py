@@ -91,32 +91,56 @@ def display_board(board):
 
 
 def get_move():
-    """Gets player input, without validation or checks, and returns human x and y coordinate (plus 1)"""
+    """Gets player input, without validation or checks, and returns tuple
+    with x and y coordinate for computer; i.e. human entry - 1"""
     move = input('Enter x and y coordinates for next move, separated by space; or  q  to exit: ')
     if move.lower() == 'q':
         print('Thanks for playing; exiting program now.')
         sys.exit()
     move = move.split()
-    return int(move[0]), int(move[1])
+    return int(move[0]) - 1, int(move[1]) - 1
 
 
-def mine_hit(move, mines):
-    for mine in mines:
-        if move == mine:
-            return True
-    return False
+def count_adjacent_mines(move, mines, width, height):
+    """Counts number of mines immediately adjacent to the coordinates of a move"""
+    count = 0
+    x = move[0]
+    y = move[1]
+
+    # Statement below does redundant check for x,y as well (we already checked that's not a mine) but so be it
+    # Note we want to check for x+1 and y+1, so range stops at x+2 and y+2
+    for ix in range(max(0, x - 1), min(width, x + 2)):
+        for iy in range(max(0, y - 1), min(height, y + 2)):
+            if (ix, iy) in mines:
+                count += 1
+
+    return count
 
 
 def main():
     width, height, number_of_mines = get_game_parameters()
     mines, board = setup_game(width, height, number_of_mines)
     display_board(board)
-    xp1, yp1 = get_move()
-    print(xp1, yp1)
-    move = (xp1 - 1, yp1 - 1)
-    if mine_hit(move, mines):
+    print(mines)
+    for x in range(width):
+        for y in range(height):
+            if (x, y) in mines:
+                board[y][x] = '*'
+            else:
+                count = count_adjacent_mines((x, y), mines, width, height)
+                if count > 0:
+                    board[y][x] = count
+                else:
+                    board[y][x] = ' '
+
+    display_board(board)
+
+"""
+    move = get_move()
+    if move in mines:
         print('You hit a mine. Game over.')
         sys.exit()
+"""
 
 if __name__ == '__main__':
     main()
