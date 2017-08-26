@@ -89,14 +89,22 @@ def display_board(board):
     print_x_coordinate_singles(len(board[0]) + 1)
     print_x_coordinate_tens(len(board[0]) + 1)
 
+
 def get_move():
     """Gets player input, without validation or checks, and returns human x and y coordinate (plus 1)"""
     move = input('Enter x and y coordinates for next move, separated by space; or  q  to exit: ')
-    if move.upper() == 'Q':
+    if move.lower() == 'q':
         print('Thanks for playing; exiting program now.')
         sys.exit()
-    moves = move.split()
-    return int(moves[0]), int(moves[1])
+    move = move.split()
+    return int(move[0]), int(move[1])
+
+
+def mine_hit(move, mines):
+    for mine in mines:
+        if move == mine:
+            return True
+    return False
 
 
 def main():
@@ -105,6 +113,10 @@ def main():
     display_board(board)
     xp1, yp1 = get_move()
     print(xp1, yp1)
+    move = (xp1 - 1, yp1 - 1)
+    if mine_hit(move, mines):
+        print('You hit a mine. Game over.')
+        sys.exit()
 
 if __name__ == '__main__':
     main()
