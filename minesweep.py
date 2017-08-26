@@ -2,6 +2,7 @@
 A minesweeper game without a GUI.
 """
 from random import sample
+import os
 
 
 def get_game_parameters(max_width=76, max_height=20):
@@ -44,27 +45,50 @@ def setup_game(width, height, number_of_mines):
     for mine in random_mines:
         mines.append((mine % width, mine // width))
     board = []
-    for x in range(width):
+    for y in range(height):
         board.append([])
-        for y in range(height):
-            board[x].append("~")
+        for x in range(width):
+            board[y].append('~')
     return mines, board
 
 
 def display_board(board):
-    print('  |',end="")
-    for x in range(1, len(board) + 1):
-        if x % 10 == 0 and x > 0:
-            print(x // 10, end="")
+    """Print the board with x and y axis in human counting form."""
+    os.system('clear')
+    print('   |', end="")
+    for xp1 in range(1, len(board[0]) + 1):
+        if xp1 % 10 == 0:
+            print(xp1 // 10, end="")
         else:
             print(' ', end="")
     print('|')
 
-    print(' x|', end="")
-    for x in range(1, len(board) + 1):
-        print(x % 10, end="")
+    print('  x|', end="")
+    for xp1 in range(1, len(board[0]) + 1):
+        print(xp1 % 10, end="")
     print('|')
 
+    print('-' * (len(board[0])+7))
+
+    for y in range(len(board) - 1, -1, -1):
+        print('y{0:2}|'.format(y + 1), end="")
+        for x in range(len(board[0])):
+            print(board[y][x], end="")
+        print('|{0:2}y'.format(y + 1))
+
+    print('-' * (len(board[0])+7))
+    print('  x|', end="")
+    for xp1 in range(1, len(board[0]) + 1):
+        print(xp1 % 10, end="")
+    print('|')
+
+    print('   |', end="")
+    for xp1 in range(1, len(board[0]) + 1):
+        if xp1 % 10 == 0:
+            print(xp1 // 10, end="")
+        else:
+            print(' ', end="")
+    print('|')
 
 def get_move():
     pass
