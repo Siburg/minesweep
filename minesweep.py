@@ -3,6 +3,7 @@ A minesweeper game without a GUI.
 """
 from random import sample
 import os
+import sys
 
 
 def get_game_parameters(max_width=76, max_height=20):
@@ -89,13 +90,21 @@ def display_board(board):
     print_x_coordinate_tens(len(board[0]) + 1)
 
 def get_move():
-    pass
+    """Gets player input, without validation or checks, and returns human x and y coordinate (plus 1)"""
+    move = input('Enter x and y coordinates for next move, separated by space; or  q  to exit: ')
+    if move.upper() == 'Q':
+        print('Thanks for playing; exiting program now.')
+        sys.exit()
+    moves = move.split()
+    return int(moves[0]), int(moves[1])
 
 
 def main():
     width, height, number_of_mines = get_game_parameters()
     mines, board = setup_game(width, height, number_of_mines)
     display_board(board)
+    xp1, yp1 = get_move()
+    print(xp1, yp1)
 
 if __name__ == '__main__':
     main()
