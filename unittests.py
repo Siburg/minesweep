@@ -60,10 +60,11 @@ class TestGetGameParameters(unittest.TestCase):
 
 
 @unittest.skip('Need to refactor for split')
-"""The setup_game function has been split into two separate funtions.
-Need to separate tests for that."""
 class TestSetupGame(unittest.TestCase):
     """ test function setup_game"""
+
+    """The setup_game function has been split into two separate funtions.
+    Need to separate tests for that."""
 
     def setUp(self):
         self.width = 20
