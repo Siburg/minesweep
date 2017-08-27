@@ -48,11 +48,13 @@ def setup_game(width, height, number_of_mines):
     for mine in random_mines:
         mines.append((mine % width, mine // width))
 
+    # Next, set up the board. 0 and positive numbers are later going to indicate cleared
+    # values, so initialise it with negative numbers.
     board = []
     for y in range(height):
         board.append([])
         for x in range(width):
-            board[y].append('~')
+            board[y].append(-1)
 
     return mines, board
 
@@ -82,7 +84,14 @@ def display_board(board):
     for y in range(len(board) - 1, -1, -1):
         print('y{0:2}|'.format(y + 1), end="")
         for x in range(len(board[0])):
-            print(board[y][x], end="")
+            # negative numbers mean not yet cleared
+            if board[y][x] < 0:
+                print('#', end="")
+            elif board[y][x] == 0:
+                # Print middle dot (unicode) for zeros
+                print('\u00B7', end="")
+            else:
+                print(board[y][x], end="")
         print('|{0:2}y'.format(y + 1))
 
     print('-' * (len(board[0])+7))
@@ -127,13 +136,9 @@ def main():
     for x in range(width):
         for y in range(height):
             if (x, y) in mines:
-                board[y][x] = '*'
+                board[y][x] = 9
             else:
-                count = count_adjacent_mines((x, y), mines, width, height)
-                if count > 0:
-                    board[y][x] = count
-                else:
-                    board[y][x] = ' '
+                board[y][x] = count_adjacent_mines((x, y), mines, width, height)
 
     display_board(board)
 
