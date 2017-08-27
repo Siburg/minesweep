@@ -6,6 +6,22 @@ import os
 import sys
 
 
+def get_single_input(prompt, min_value, max_value):
+    """Helper function to get an input one at a time."""
+    while True:
+        try:
+            entry = int(input(prompt))
+            if entry < min_value or entry > max_value:
+                print('You entered a number outside the allowed range! ' +
+                      'The number needs to be at least ' + str(min_value) +
+                      ' and no larger than ' + str(max_value) +
+                      '. Please try again.')
+            else:
+                return entry
+        except TypeError:
+            print('You should have entered a number. Please try again.')
+
+
 def get_game_parameters(max_width=76, max_height=20):
     """Get and validate size parameters for the game."""
     # Minimums are hard coded below. Could be included in parameters above,
@@ -13,21 +29,6 @@ def get_game_parameters(max_width=76, max_height=20):
     MIN_WIDTH = 3
     MIN_HEIGHT = 3
     MIN_MINES = 1
-
-    def get_single_input(prompt, min_value, max_value):
-        """Helper function to get each input one at a time."""
-        while True:
-            try:
-                entry = int(input(prompt))
-                if entry < min_value or entry > max_value:
-                    print('You entered a number outside the allowed range! ' +
-                          'The number needs to be at least ' + str(min_value) +
-                          ' and no larger than ' + str(max_value) +
-                          '. Please try again.')
-                else:
-                    return entry
-            except TypeError:
-                print('You should have entered a number. Please try again.')
 
     width = get_single_input('Enter width for the game board: ', MIN_WIDTH, max_width)
     height = get_single_input('Enter height for the game board: ', MIN_HEIGHT, max_height)
@@ -127,6 +128,9 @@ def count_adjacent_mines(move, mines, width, height):
 
     return count
 
+def clear(move, mines, width, height):
+    return count_adjacent_mines(move, mines, width, height)
+
 
 def main():
     width, height, number_of_mines = get_game_parameters()
@@ -138,7 +142,7 @@ def main():
             if (x, y) in mines:
                 board[y][x] = 9
             else:
-                board[y][x] = count_adjacent_mines((x, y), mines, width, height)
+                board[y][x] = clear((x, y), mines, width, height)
 
     display_board(board)
 
