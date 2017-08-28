@@ -162,26 +162,25 @@ def update_board(move, board, mines, width, height):
     if board[y][x] > 0:
         return
 
-    if x - 1 >= 0:
+    # board values of <0 mean they have not been cleared yet
+    if x - 1 >= 0 and board[y][x - 1] < 0:
         update_board((x - 1, y), board, mines, width, height)
-    #if x + 1 < width:
-    #    update_board((x + 1, y), board, mines, width, height)
-    """Problem is we can't run right and left, because that's endless loop I think"""
-
-    if y - 1 >= 0:
-        update_board((x, y - 1), board, mines, width, height)
-    #if y + 1 < height:
-    #    update_board((x, y + 1), board, mines, width, height)
-
-    """
-    if x + 1 < width:
+    if x + 1 < width and board[y][x + 1] < 0:
         update_board((x + 1, y), board, mines, width, height)
-        
-        if y - 1 >= 0:
-            update_board((x + 1, y - 1), board, mines, width, height)
-        if y + 1 < height:
-            update_board((x + 1, y + 1), board, mines, width, height)
-        """
+    if y - 1 >= 0 and board[y - 1][x] < 0:
+        update_board((x, y - 1), board, mines, width, height)
+    if y + 1 < height and board[y + 1][x] < 0:
+        update_board((x, y + 1), board, mines, width, height)
+
+    if x - 1 >= 0 and y - 1 >= 0 and board[y - 1][x - 1] < 0:
+        update_board((x - 1, y - 1), board, mines, width, height)
+    if x - 1 >= 0 and y + 1 < height and board[y + 1][x - 1] < 0:
+        update_board((x - 1, y + 1), board, mines, width, height)
+    if x + 1 < width and y - 1 >= 0 and board[y - 1][x + 1] < 0:
+        update_board((x + 1, y - 1), board, mines, width, height)
+    if x + 1 < width and y + 1 < height and board[y + 1][x + 1] < 0:
+        update_board((x + 1, y + 1), board, mines, width, height)
+
     return
 
 
