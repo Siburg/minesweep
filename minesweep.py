@@ -163,22 +163,22 @@ def update_board(move, board, mines, width, height):
         return
 
     # board values of <0 mean they have not been cleared yet
-    if x - 1 >= 0 and board[y][x - 1] < 0:
+    if board[y][x - 1] < 0 and x - 1 >= 0:
         update_board((x - 1, y), board, mines, width, height)
-    if x + 1 < width and board[y][x + 1] < 0:
+    if board[y][x + 1] < 0 and x + 1 < width:
         update_board((x + 1, y), board, mines, width, height)
-    if y - 1 >= 0 and board[y - 1][x] < 0:
+    if board[y - 1][x] < 0 and y - 1 >= 0 :
         update_board((x, y - 1), board, mines, width, height)
-    if y + 1 < height and board[y + 1][x] < 0:
+    if board[y + 1][x] < 0 and y + 1 < height:
         update_board((x, y + 1), board, mines, width, height)
 
-    if x - 1 >= 0 and y - 1 >= 0 and board[y - 1][x - 1] < 0:
+    if board[y - 1][x - 1] < 0 and x - 1 >= 0 and y - 1 >= 0:
         update_board((x - 1, y - 1), board, mines, width, height)
-    if x - 1 >= 0 and y + 1 < height and board[y + 1][x - 1] < 0:
+    if board[y + 1][x - 1] < 0 and x - 1 >= 0 and y + 1 < height:
         update_board((x - 1, y + 1), board, mines, width, height)
-    if x + 1 < width and y - 1 >= 0 and board[y - 1][x + 1] < 0:
+    if board[y - 1][x + 1] < 0 and x + 1 < width and y - 1 >= 0:
         update_board((x + 1, y - 1), board, mines, width, height)
-    if x + 1 < width and y + 1 < height and board[y + 1][x + 1] < 0:
+    if board[y + 1][x + 1] < 0 and x + 1 < width and y + 1 < height:
         update_board((x + 1, y + 1), board, mines, width, height)
 
     return
