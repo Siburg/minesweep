@@ -135,7 +135,9 @@ def count_adjacent_mines(move, mines, width, height):
 
 def reveal_board(mines, width, height):
     """Cheat function to reveal all mines and adjacent counts at any time.
-    Mines will be indicated as 9's."""
+    Mines will be indicated as 9's.
+    This function does not change the actual board. Instead it sets up a
+    temporary board and displays all the mines and surrounding counts on that."""
     reveal = setup_board(width, height)
     for x in range(width):
         for y in range(height):
@@ -148,8 +150,20 @@ def reveal_board(mines, width, height):
     return
 
 
-def clear(move, mines, width, height):
-    return count_adjacent_mines(move, mines, width, height)
+def update_board(move, board, mines, width, height):
+    """Updates the board after a move (after having already checked that we
+    did not hit a mine). If there are any adjacent mines we display their count
+    and are done. Otherwise, we run recursively in all directions until we
+    encounter adjacent mines."""
+    x = move[0]
+    y = move[1]
+
+    board[y][x] = count_adjacent_mines(move, mines, width, height)
+    if board[y][x] > 0:
+        return
+
+    print('more to clear')
+    return
 
 
 def main():
@@ -157,14 +171,19 @@ def main():
     mines = setup_mines(width, height, number_of_mines)
     board = setup_board(width, height)
     display_board(board)
+
     reveal_board(mines, width, height)
 
-"""
     move = get_move()
     if move in mines:
         print('You hit a mine. Game over.')
         sys.exit()
-"""
+    update_board(move, board, mines, width, height)
+    if sum(row.count(-1) for row in board) == number_of_mines:
+        print('Congratulations, you have found all the mines. Game over.')
+        display_board(board)
+        sys.exit()
+
 
 if __name__ == '__main__':
     main()
