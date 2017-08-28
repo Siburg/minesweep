@@ -69,37 +69,37 @@ def display_board(board):
     def print_x_coordinate_singles(widthp1):
         print('  x|', end="")
         for xp1 in range(1, widthp1):
-            print(xp1 % 10, end="")
-        print('|')
+            print(' ' + str(xp1 % 10), end="")
+        print(' |')
 
     def print_x_coordinate_tens(widthp1):
         print('   |', end="")
         for xp1 in range(1, widthp1):
             if xp1 % 10 == 0:
-                print(xp1 // 10, end="")
+                print(' ' + str(xp1 // 10), end="")
             else:
-                print(' ', end="")
-        print('|')
+                print('  ', end="")
+        print(' |')
 
     os.system('clear')
     print_x_coordinate_tens(len(board[0]) + 1)
     print_x_coordinate_singles(len(board[0]) + 1)
-    print('-' * (len(board[0])+7))
+    print('-' * (2 * len(board[0]) + 8))
 
     for y in range(len(board) - 1, -1, -1):
         print('y{0:2}|'.format(y + 1), end="")
         for x in range(len(board[0])):
             # negative numbers mean not yet cleared
             if board[y][x] < 0:
-                print('#', end="")
+                print(' #', end="")
             elif board[y][x] == 0:
                 # Print middle dot (unicode) for zeros
-                print('\u00B7', end="")
+                print(' \u00B7', end="")
             else:
-                print(board[y][x], end="")
-        print('|{0:2}y'.format(y + 1))
+                print(' ' + str(board[y][x]), end="")
+        print(' |{0:2}y'.format(y + 1))
 
-    print('-' * (len(board[0])+7))
+    print('-' * (2 * len(board[0]) + 8))
     print_x_coordinate_singles(len(board[0]) + 1)
     print_x_coordinate_tens(len(board[0]) + 1)
 
