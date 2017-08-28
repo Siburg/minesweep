@@ -162,7 +162,22 @@ def update_board(move, board, mines, width, height):
     if board[y][x] > 0:
         return
 
-    print('more to clear')
+    if x - 1 >= 0:
+        update_board((x - 1, y), board, mines, width, height)
+        if y - 1 >= 0:
+            update_board((x - 1, y - 1), board, mines, width, height)
+        if y + 1 < height:
+            update_board((x - 1, y + 1), board, mines, width, height)
+
+    """
+    if x + 1 < width:
+        update_board((x + 1, y), board, mines, width, height)
+        
+        if y - 1 >= 0:
+            update_board((x + 1, y - 1), board, mines, width, height)
+        if y + 1 < height:
+            update_board((x + 1, y + 1), board, mines, width, height)
+        """
     return
 
 
@@ -175,13 +190,16 @@ def main():
     reveal_board(mines, width, height)
 
     move = get_move()
+
     if move in mines:
         print('You hit a mine. Game over.')
         sys.exit()
+
     update_board(move, board, mines, width, height)
+    display_board(board)
+
     if sum(row.count(-1) for row in board) == number_of_mines:
         print('Congratulations, you have found all the mines. Game over.')
-        display_board(board)
         sys.exit()
 
 
