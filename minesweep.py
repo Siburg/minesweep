@@ -163,6 +163,9 @@ def update_board(move, board, mines, width, height):
         return
 
     # board values of <0 mean they have not been cleared yet
+    # Note tests have to run from left to right, otherwise
+    # we will be testing board values with coordinates that are
+    # out of bounds.
     if x - 1 >= 0 and board[y][x - 1] < 0:
         update_board((x - 1, y), board, mines, width, height)
     if x + 1 < width and board[y][x + 1] < 0:
@@ -190,20 +193,21 @@ def main():
     board = setup_board(width, height)
     display_board(board)
 
-    reveal_board(mines, width, height)
+    # reveal_board(mines, width, height)
 
-    move = get_move()
+    while True:
+        move = get_move()
 
-    if move in mines:
-        print('You hit a mine. Game over.')
-        sys.exit()
+        if move in mines:
+            print('You hit a mine. Game over.')
+            sys.exit()
 
-    update_board(move, board, mines, width, height)
-    display_board(board)
+        update_board(move, board, mines, width, height)
+        display_board(board)
 
-    if sum(row.count(-1) for row in board) == number_of_mines:
-        print('Congratulations, you have found all the mines. Game over.')
-        sys.exit()
+        if sum(row.count(-1) for row in board) == number_of_mines:
+            print('Congratulations, you have found all the mines. Game over.')
+            sys.exit()
 
 
 if __name__ == '__main__':
