@@ -2,18 +2,46 @@
 
 import minesweep
 import unittest
-#from unittest import mock
+from unittest import mock
 #import sys
 #import io
+
+
+class TestGetSingleInput(unittest.TestCase):
+    """ test function get_single_input"""
+
+    def setUp(self):
+        self.prompt = 'spam'
+        self.min_value = 1
+        self.max_value = 99
+
+    def test_returned_entry_is_integer(self):
+        """check that we get an integer value as return"""
+        with mock.patch('builtins.input', side_effect=('9')):
+            entry = minesweep.get_single_input(self.prompt, self.min_value, self. max_value)
+        self.assertEqual(type(entry), int)
+
+    def test_returned_entry_equals_entry(self):
+        """check that the return value is integer value of entry"""
+        with mock.patch('builtins.input', side_effect=('9')):
+            entry = minesweep.get_single_input(self.prompt, self.min_value, self.max_value)
+        self.assertEqual(entry, 9)
+
+#   This is not working
+    def test_non_integer_input_is_rejected(self):
+        """check that non-integers are rejected until we get input integer"""
+        with mock.patch('builtins.input', side_effect=('a', '2.0', '3')):
+            entry = minesweep.get_single_input(self.prompt, self.min_value, self. max_value)
+        self.assertEqual(entry, 3)
 
 
 class TestSetupMines(unittest.TestCase):
     """ test function setup_mines"""
 
     def setUp(self):
-        self.width = 20
-        self.height = 10
-        self.number_of_mines = 30
+        self.width = 15
+        self.height = 9
+        self.number_of_mines = 130
         self.mines = minesweep.setup_mines(self.width, self.height, self.number_of_mines)
 
     def test_returned_mines_is_list(self):
@@ -53,7 +81,6 @@ class TestSetupBoard(unittest.TestCase):
         self.height = 10
         self.board = minesweep.setup_board(self.width, self.height)
 
-
     def test_returned_board_is_list(self):
         """check that board is returned in the form of a list"""
         self.assertEqual(type(self.board), list)
@@ -70,6 +97,16 @@ class TestSetupBoard(unittest.TestCase):
         """check that number of items in the first sublist, representing x coordinate, equals width"""
         # note that checking for later sublists should be redundant
         self.assertEqual(len(self.board[0]), self.width)
+
+    def test_initialisation_type(self):
+        """check that board is initialised with integer values"""
+        # note we should only need to check one value; assuming others cannot be different
+        self.assertEqual(type(self.board[0][0]),int)
+
+    def test_initialisation_value(self):
+        """check that board is initialised with values of -1"""
+        # note we should only need to check one value; assuming others cannot be different
+        self.assertEqual(self.board[0][0], -1)
 
 
 if __name__ == '__main__':
