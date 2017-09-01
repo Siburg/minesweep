@@ -153,6 +153,81 @@ class TestGetMove(unittest.TestCase):
         self.assertEqual(self.move, (8,7))
 
 
+class TestCountAdjacentMines(unittest.TestCase):
+    """test function count_adjacent_mines
+    this is going to have a lot of test cases to try"""
+
+    def test_return_is_integer(self):
+        move = (1, 1)
+        mines = [(2, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(type(count), int)
+
+    def test_return_is_1(self):
+        move = (1, 1)
+        mines = [(2, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 1)
+
+    def test_return_is_2(self):
+        move = (1, 1)
+        mines = [(2, 2), (1, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 2)
+
+    def test_lower_left_corner(self):
+        move = (0, 0)
+        mines = [(0, 1), (1, 1), (1, 0)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 3)
+
+    def test_upper_left_corner(self):
+        move = (0, 2)
+        mines = [(0, 1), (1, 1), (1, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 3)
+
+    def test_upper_right_corner(self):
+        move = (2, 2)
+        mines = [(2, 1), (1, 1), (1, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 3)
+
+    def lower_right_corner(self):
+        move = (2, 0)
+        mines = [(2, 1), (1, 1), (1, 0)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 3)
+
+    def test_return_is_4(self):
+        move = (1, 1)
+        mines = [(2, 2), (1, 2), (0, 0), (0, 1)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 4)
+
+    def test_return_is_5(self):
+        move = (1, 1)
+        mines = [(2, 2), (2, 1), (1, 2), (0, 0), (0, 1)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 5)
+
+    def test_return_is_6(self):
+        move = (1, 1)
+        mines = [(2, 2), (2, 1), (1, 2), (0, 0), (0, 1), (1, 0)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 6)
+
+    def test_return_is_7(self):
+        move = (1, 1)
+        mines = [(2, 2), (2, 1), (1, 2), (0, 0), (0, 1), (1, 0), (2, 0)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 7)
+
+    def test_return_is_8(self):
+        move = (1, 1)
+        mines = [(2, 2), (2, 1), (1, 2), (0, 0), (0, 1), (1, 0), (2, 0), (0, 2)]
+        count = minesweep.count_adjacent_mines(move, mines, 3, 3)
+        self.assertEqual(count, 8)
 
 
 if __name__ == '__main__':
