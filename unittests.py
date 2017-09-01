@@ -45,7 +45,7 @@ class TestGetSingleInput(unittest.TestCase):
         """check that non-integers are rejected until we get input integer"""
         with mock.patch('builtins.input', side_effect=('a', '2.0', '3')):
             entry = minesweep.get_single_input(self.prompt, self.min_value, self.max_value)
-        self.assertRaises(TypeError)
+        self.assertEqual(entry, 3)
 
 
 class TestSetupMines(unittest.TestCase):
@@ -125,6 +125,11 @@ class TestSetupBoard(unittest.TestCase):
 class TestGetMove(unittest.TestCase):
     """test function get_move"""
 
+    """I don't know yet how to test the exit function if  q  is entered.
+    As a result the call to the function is included in the setUp below.
+    If we do enter  q  as a value then the call needs to be moved into the
+    individual tests."""
+
     def setUp(self):
         # note to self: if you use side_effect instead of return_value then the mocked
         # values (even if only a single value) need to be in the form of a list
@@ -134,6 +139,18 @@ class TestGetMove(unittest.TestCase):
     def test_return_is_tuple(self):
         """check that we get a tuple as return value"""
         self.assertEqual(type(self.move), tuple)
+
+    def test_return_tuple_contains_two_values(self):
+        """check that return tuple has two values"""
+        self.assertEqual(len(self.move), 2)
+
+    def test_return_values_are_integers(self):
+        """check that return values are integers"""
+        self.assertTrue(type(self.move[0]) == int and type(self.move[1]) == int)
+
+    def test_return_values(self):
+        """check that return values are entry values - 1"""
+        self.assertEqual(self.move, (8,7))
 
 
 
