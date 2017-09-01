@@ -15,10 +15,10 @@ def get_single_input(prompt, min_value, max_value):
                 print('You entered a number outside the allowed range! ' +
                       'The number needs to be at least ' + str(min_value) +
                       ' and no larger than ' + str(max_value) +
-                      '. Please try again.')
+                      '.\nPlease try again.')
             else:
                 return entry
-        except TypeError:
+        except ValueError:
             print('You should have entered a number. Please try again.')
 
 
@@ -175,6 +175,7 @@ def update_board(move, board, mines, width, height):
     if y + 1 < height and board[y + 1][x] < 0:
         update_board((x, y + 1), board, mines, width, height)
 
+    # Not entirely sure if next statements are needed and appropriate
     if x - 1 >= 0 and y - 1 >= 0 and board[y - 1][x - 1] < 0:
         update_board((x - 1, y - 1), board, mines, width, height)
     if x - 1 >= 0 and y + 1 < height and board[y + 1][x - 1] < 0:
@@ -192,8 +193,6 @@ def main():
     mines = setup_mines(width, height, number_of_mines)
     board = setup_board(width, height)
     display_board(board)
-
-    # reveal_board(mines, width, height)
 
     while True:
         move = get_move()

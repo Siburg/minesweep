@@ -41,13 +41,10 @@ class TestGetSingleInput(unittest.TestCase):
             entry = minesweep.get_single_input(self.prompt, self.min_value, self.max_value)
         self.assertEqual(entry, self.max_value)
 
-
-#   This is not working
-    @unittest.skip('Test of wrong input type for get_single_input is not working')
     def test_non_integer_input_is_rejected(self):
         """check that non-integers are rejected until we get input integer"""
-        with mock.patch('builtins.input', side_effect=('a', '3')):
-            entry = minesweep.get_single_input(self.prompt, self.min_value, self. max_value)
+        with mock.patch('builtins.input', side_effect=('a', '2.0', '3')):
+            entry = minesweep.get_single_input(self.prompt, self.min_value, self.max_value)
         self.assertRaises(TypeError)
 
 
