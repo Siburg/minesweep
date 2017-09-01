@@ -121,13 +121,14 @@ class TestSetupBoard(unittest.TestCase):
         # note we should only need to check one value; assuming others cannot be different
         self.assertEqual(self.board[0][0], -1)
 
-#   This is not working
-@unittest.skip('Mock input for get_move is not working')
+
 class TestGetMove(unittest.TestCase):
     """test function get_move"""
 
     def setUp(self):
-        with mock.patch('builtins.input', side_effect=("9 8")):
+        # note to self: if you use side_effect instead of return_value then the mocked
+        # values (even if only a single value) need to be in the form of a list
+        with mock.patch('builtins.input', return_value='9 8'):
             self.move = minesweep.get_move()
 
     def test_return_is_tuple(self):
