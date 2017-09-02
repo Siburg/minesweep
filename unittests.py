@@ -48,6 +48,82 @@ class TestGetSingleInput(unittest.TestCase):
         self.assertEqual(entry, 3)
 
 
+class TestGetGameParameters(unittest.TestCase):
+    """ test function get_game_parameters"""
+
+    def test_number_of_return_values(self):
+        """ check that we get 3 return values for normal input"""
+        with mock.patch('builtins.input', side_effect=['9', '9', '9']):
+            values = minesweep.get_game_parameters()
+        self.assertEqual(len(values), 3)
+
+    def test_all_return_values_are_integer(self):
+        """ check that all of the return values are integer for normal input"""
+        # you could split this into separate tests, but that seems like overkill
+        with mock.patch('builtins.input', side_effect=['9', '9', '9']):
+            values = minesweep.get_game_parameters()
+        self.assertTrue(type(values[0]) is int
+                        and type(values[1]) is int and type(values[2]) is int)
+
+    def test_max_width_compliance(self):
+        """check that returned width value remains within specified max_width"""
+        max_width = 4
+        with mock.patch('builtins.input', side_effect=[
+                # first one is out of range, at maximum on 2nd input
+                str(max_width + 1), str(max_width), '9', '9']):
+            values = minesweep.get_game_parameters(max_width=max_width)
+        self.assertEqual(values[0], max_width)
+
+    def test_min_width_compliance(self):
+        """check that returned width value remains within min_width;
+        which is hard coded as 3"""
+        min_width = 3
+        with mock.patch('builtins.input', side_effect=[
+            # first one is out of range, at minimum on 2nd input
+            str(min_width - 1), str(min_width), '9', '9']):
+            values = minesweep.get_game_parameters()
+        self.assertEqual(values[0], min_width)
+
+    def test_max_height_compliance(self):
+        """check that returned height value remains within specified max_height"""
+        max_height = 5
+        with mock.patch('builtins.input', side_effect=[
+                # first one is out of range, at maximum on 2nd input
+                '9', str(max_height + 1), str(max_height), '9']):
+            values = minesweep.get_game_parameters(max_height=max_height)
+        self.assertEqual(values[1], max_height)
+
+    def test_min_height_compliance(self):
+        """check that returned height value remains within min_height;
+        which is hard coded as 3"""
+        min_height = 3
+        with mock.patch('builtins.input', side_effect=[
+                # first one is out of range, at minimum on 2nd input
+                '9', str(min_height - 1), str(min_height), '9']):
+            values = minesweep.get_game_parameters()
+        self.assertEqual(values[1], min_height)
+
+    def test_max_mines_compliance(self):
+        """check that returned number of mines value remains within limit of
+        width * height - 1"""
+        max_mines = 9 * 9 - 1
+        with mock.patch('builtins.input', side_effect=[
+            # first one is out of range, at maximum on 2nd input
+            '9', '9', str(max_mines + 1), str(max_mines)]):
+            values = minesweep.get_game_parameters()
+        self.assertEqual(values[2], max_mines)
+
+    def test_min_mines_compliance(self):
+        """check that returned number of mines remains within minimum;
+        which is hard coded as 1"""
+        min_mines = 1
+        with mock.patch('builtins.input', side_effect=[
+                # first one is out of range, at minimum on 2nd input
+                '9', '9', str(min_mines - 1), str(min_mines)]):
+            values = minesweep.get_game_parameters()
+        self.assertEqual(values[2], min_mines)
+
+
 class TestSetupMines(unittest.TestCase):
     """ test function setup_mines"""
 
@@ -120,6 +196,11 @@ class TestSetupBoard(unittest.TestCase):
         """check that board is initialised with values of -1"""
         # note we should only need to check one value; assuming others cannot be different
         self.assertEqual(self.board[0][0], -1)
+
+
+# No unit tests for display_board function.
+# Testing that would require a lot of I/O redirection and testing.
+# More convenient to test by eye on actual output.
 
 
 class TestGetMove(unittest.TestCase):
@@ -228,6 +309,16 @@ class TestCountAdjacentMines(unittest.TestCase):
         mines = [(2, 2), (2, 1), (1, 2), (0, 0), (0, 1), (1, 0), (2, 0), (0, 2)]
         count = minesweep.count_adjacent_mines(move, mines, 3, 3)
         self.assertEqual(count, 8)
+
+
+# No unit tests for reveal_board function.
+# Testing that would require a lot of I/O redirection and testing.
+# Besides, it's a cheat function for testing itself, which is not normally used in program.
+# More convenient to test by eye on actual output if it is ever used.
+
+
+# No unit tests for update_board function.
+# Too difficult for now, so chickened out.
 
 
 if __name__ == '__main__':
