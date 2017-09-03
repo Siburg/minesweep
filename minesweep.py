@@ -3,6 +3,7 @@ A minesweeper game without a GUI.
 """
 from random import sample
 import os
+import sys
 
 
 def get_single_input(prompt, min_value, max_value):
@@ -180,7 +181,10 @@ def update_board(move, board, mines, width, height):
     return
 
 
-def play_game(width, height, number_of_mines, mines, board):
+def play_game(width, height, number_of_mines):
+    """Plays a single game for a given width, height, and number of mines."""
+    mines = setup_mines(width, height, number_of_mines)
+    board = setup_board(width, height)
     display_board(board)
     while True:
         move = get_move()
@@ -199,9 +203,7 @@ def play_game(width, height, number_of_mines, mines, board):
 
 def main():
     width, height, number_of_mines = get_game_parameters()
-    mines = setup_mines(width, height, number_of_mines)
-    board = setup_board(width, height)
-    play_game(width, height, number_of_mines, mines, board)
+    play_game(width, height, number_of_mines)
 
 
 if __name__ == '__main__':
