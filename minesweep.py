@@ -3,7 +3,6 @@ A minesweeper game without a GUI.
 """
 from random import sample
 import os
-import sys
 
 
 def get_single_input(prompt, min_value, max_value):
@@ -44,9 +43,7 @@ def setup_mines(width, height, number_of_mines):
     # First, create 1-dimensional list of random mines
     random_mines = sample(range(width * height), number_of_mines)
     # translate the 1-dimensional list into a list with x,y coordinates for each mine
-    mines = []
-    for mine in random_mines:
-        mines.append((mine % width, mine // width))
+    mines = [(mine % width, mine // width) for mine in random_mines]
     return mines
 
 
@@ -55,12 +52,7 @@ def setup_board(width, height):
      with y as first sub-script and x as second subscript."""
     # 0 and positive numbers are later going to indicate cleared
     # values, so initialise it with negative numbers.
-    board = []
-    for y in range(height):
-        board.append([])
-        for x in range(width):
-            board[y].append(-1)
-
+    board = [[-1 for x in range(width)] for y in range(height)]
     return board
 
 
@@ -188,25 +180,28 @@ def update_board(move, board, mines, width, height):
     return
 
 
-def main():
-    width, height, number_of_mines = get_game_parameters()
-    mines = setup_mines(width, height, number_of_mines)
-    board = setup_board(width, height)
+def play_game(width, height, number_of_mines, mines, board):
     display_board(board)
-
     while True:
         move = get_move()
 
         if move in mines:
             print('You hit a mine. Game over.')
-            sys.exit()
+            return
 
         update_board(move, board, mines, width, height)
         display_board(board)
 
         if sum(row.count(-1) for row in board) == number_of_mines:
             print('Congratulations, you have found all the mines. Game over.')
-            sys.exit()
+            return
+
+
+def main():
+    width, height, number_of_mines = get_game_parameters()
+    mines = setup_mines(width, height, number_of_mines)
+    board = setup_board(width, height)
+    play_game(width, height, number_of_mines, mines, board)
 
 
 if __name__ == '__main__':

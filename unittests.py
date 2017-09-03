@@ -321,5 +321,20 @@ class TestCountAdjacentMines(unittest.TestCase):
 # Too difficult for now, so chickened out.
 
 
+class TestPlayGame(unittest.TestCase):
+    """test function play_game"""
+
+    @unittest.skip('No tests for game exit yet')
+    def test_mine_hit(self):
+        """check that we finish when a mine is hit"""
+        width = 3
+        height = 3
+        number_of_mines = 1
+        mines = [(2, 2), ]
+        board = minesweep.setup_board(width,height)
+        with mock.patch('builtins.input', side_effect=['2 2', ]):
+            self.assertRaises(SystemExit, minesweep.play_game, width, height, number_of_mines, mines, board)
+
+
 if __name__ == '__main__':
     unittest.main()
